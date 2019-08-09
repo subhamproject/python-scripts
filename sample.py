@@ -17,6 +17,7 @@ for user_name in user.split(','):
        status_code = subprocess.run(['useradd','-m','-d','/home/'+user_name,'-s','/bin/bash',user_name])
        if status_code.returncode == 0:
           print('User \"{}\" was successfully added'.format(user_name))
+print()
 =================================================================================================================================
 
 #!/usr/bin/python
