@@ -1,0 +1,11 @@
+#!/usr/bin/python
+
+with open('/etc/passwd') as file:
+   data = [ f for f in file.read().splitlines() ]
+   print(data)
+
+#!/usr/bin/python
+
+with open('/etc/passwd') as file:
+   data = [f.strip() for f in file.readlines()]
+   print(data)
