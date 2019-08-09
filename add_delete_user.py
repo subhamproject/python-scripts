@@ -38,4 +38,4 @@ if del_user:
         print('Deleting user \"{}\"'.format(d_user))
         status_code = subprocess.run(['userdel','-r',d_user])
         if status_code.returncode == 0:
-           print('User \"{}\" was successfully added'.format(d_user))
+           print('User \"{}\" was successfully deleted'.format(d_user))
