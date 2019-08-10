@@ -1,5 +1,3 @@
-
-
 #!/usr/bin/python
 
 import subprocess
@@ -10,10 +8,10 @@ import sys
 import getpass
 import re
 
-add_user = argparse.ArgumentParser(description='Add/Delete Users From Server')
-add_user.add_argument('-a','--add',metavar='UserName',nargs='+',required=False,help='Add user to server',dest='username')
-add_user.add_argument('-d','--del',metavar='UserName',nargs='+',required=False,help='Add user to server',dest='deluser')
-args = add_user.parse_args()
+add_users = argparse.ArgumentParser(description='Add/Delete Users From Server')
+add_users.add_argument('-a','--add',metavar='UserName',nargs='+',required=False,help='Add user to server',dest='username')
+add_users.add_argument('-d','--del',metavar='UserName',nargs='+',required=False,help='Add user to server',dest='deluser')
+args = add_users.parse_args()
 user = args.username
 del_user = args.deluser
 
@@ -47,12 +45,17 @@ def delete_user(usersname):
 
 if __name__ == '__main__':
     root_check()
-    if user:
+    if not user:
+       add_users.print_help()
+       raise SystemExit()
+    else:
        add_user(user)
-    elif del_user:
+    if not del_user:
+       add_users.print_help()
+       raise SystemExit()
+    else:
        delete_user(del_user)
-
-    ############################################################################################################################
+############################################################################################################################
 ## First way
 #!/usr/bin/python
 
