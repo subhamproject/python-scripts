@@ -46,6 +46,7 @@ def delete_user(usersname):
            print('User \"{}\" not present'.format(d_user))
 
 if __name__ == '__main__':
+    root_check()
     if user:
        add_user(user)
     elif del_user:
