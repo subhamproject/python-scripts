@@ -1,3 +1,167 @@
+
+#!/usr/bin/env python
+
+from __future__ import print_function
+from builtins import *
+
+import os 
+import sys
+import re 
+import pwd
+import getpass
+
+# Error message for invlaid user input. 
+TRY_AGAIN="Sorry, that's not allowed. Check input and try again." 
+
+def root_user_check():
+    """Exit if current UID not 0."""
+
+    if not os.getuid() == 0:
+        print("This program requires ROOT privileges. Exiting.")
+        sys.exit()
+
+def username_prompt(): 
+    """Prompt user. Check that input matches, and contains at least one 
+    allowable character.""" 
+
+    print("Valid usernames contain only the characters 'a-z', e.g. pdiddy.")
+
+    while True: 
+        username = str(input("Enter username to add: "))
+        confirm_name = str(input("To confirm, re-enter username: "))
+        
+        if username != confirm_name or not re.match("^[a-z]+$", username):
+            print(TRY_AGAIN)
+            continue 
+        
+        else:
+            print("OK, checking if user: %s exists..." %(username))
+            return username 
+
+def username_check(username): 
+    """Check if username exists."""
+
+    try: 
+        pwd.getpwnam(username)
+        print("User %s DOES EXIST. Try a different username." % (username)) 
+        return False
+
+    except KeyError: 
+        print("User %s DOES NOT exist. Continuing..." % (username))    
+        return True
+
+def comment_prompt(): 
+    """Prompt for input. Check that input matches and contains allowable 
+    characters. No input is allowable.""" 
+
+    print("Valid comments contain only the characters 'a-z' and ','," 
+          "e.g. daddy,puff. This field may be left blank.")
+ 
+    while True: 
+        comment = str(input("Enter user comments, or press 'return' twice " \
+                            "to leave blank: "))
+        confirm_comment = str(input("To confirm, re-enter comments: "))
+        
+        if comment != confirm_comment or not re.match("^[a-z,]*$", comment):
+            print(TRY_AGAIN)
+            continue 
+        
+        else:
+            print("Comments match. Continuing...") 
+            return comment
+
+def passwd_prompt(): 
+    """Prompt user for input. Check that input matches and meets password 
+    complexity requirements."""
+
+    print("Passwords MUST contain AT LEAST: one lower-case letter," 
+          "one number, one symbol, and be a MINIMUM of 8 characters in length,"
+          "e.g. r!ght2oE")
+
+    while True:
+
+        passy = getpass.getpass(prompt="Enter password for user: ")
+        confirm_passy = getpass.getpass(prompt="To confirm, " \
+                                               "re-enter password: ")
+
+        # check for the following conditions: 
+        # user input matches
+        # length of input is at least 8 characters
+        # input contains at least 1 number  
+        # input contains at least 1 letter      
+        # input contains at least 1 symbol 
+  
+        if passy != confirm_passy \
+        or len(passy) <8 \
+        or not re.search('\d', passy) \
+        or not re.search(r"[a-z]",passy) \
+        or not re.search(r"[ !#$%&'()*+,-./[\\\]^_`{|}~"+r'"]', passy):  
+        
+            print(TRY_AGAIN)
+            continue 
+        
+        else:
+            print("Password meets complexity requirement. Continuing...") 
+            return passy 
+
+def add_user(username, comment, password ): 
+    """Call the useradd command to create an account with given parameters."""
+
+    print("Adding user: %s" % (username)) 
+   
+    # create user  
+    # create group with same name as user, adding user to group
+    # comment (lastname, firstname) 
+    # create home directory           
+    # login shell 
+    # password (encrypted via openssl) 
+ 
+    os.system("useradd --create-home \
+    --user-group \
+    --comment "+comment+" \
+    --home /home/"+username+" \
+    --shell /bin/bash \
+    --password $(printf %s "+password+" |openssl passwd -1 -stdin) "+username+"")
+ 
+    print("Done.")   
+
+def add_me(): 
+    """Add user to Linux-based OSs."""
+
+    root_user_check()
+
+    username = username_prompt()
+    while not username_check(username): 
+        username = username_prompt()
+
+    comment = comment_prompt()
+    password = passwd_prompt()
+
+    add_user(username, comment, password)
+
+if __name__ == '__main__':
+    print('Python script to create user accounts in Linux.')
+
+    while True:
+        """Loop to run program, then prompt user to run again."""
+        add_me()
+
+        while True:
+            reply = str(input("Run script again? (Yes/No): ")).lower().strip()
+            if reply in ('yes', 'no'):
+                break
+            print(TRY_AGAIN) 
+
+        if reply == 'yes':
+            continue
+        else:
+            print("Ciao!")
+            break
+            
+            
+#################################################################################################################################
+
+
 """
 Author: Ahad Sheriff
 Description:
