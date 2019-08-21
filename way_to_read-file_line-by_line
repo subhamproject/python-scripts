@@ -2,50 +2,68 @@ https://thispointer.com/5-different-ways-to-read-a-file-line-by-line-in-python/
 
 
 def main():
-print("****Read all lines in file using readlines() *****")     
-# Open file    
-fileHandler = open ("data.txt", "r")
-# Get list of all lines in file
-listOfLines = fileHandler.readlines()
-# Close file 
-fileHandler.close()           
-# Iterate over the lines
-for line in listOfLines:
-print(line.strip()) 
-print("****Read file line by line and then close it manualy *****")
-# Open file        
-fileHandler = open ("data.txt", "r")
-while True:
-# Get next line from file
-line = fileHandler.readline()
-# If line is empty then end of file reached
-if not line :
-break;
-print(line.strip())
-# Close Close    
-fileHandler.close()   
-print("****Read file line by line using with open() *****")     
-# Open file 
-with open ("data.txt", "r") as fileHandler:
-# Read each line in loop
-for line in fileHandler:
-# As each line (except last one) will contain new line character, so strip that
-print(line.strip())
-print("****Read file line by line using with open *****")
-# Get the all the lines in file in a list 
-listOfLines = list()        
-with open ("data.txt", "r") as myfile:
-for line in myfile:
-listOfLines.append(line.strip()) 
-print(listOfLines)               
-print("****Read file line by line using with open() and while loop *****")
-# Open file
-with open("data.txt", "r") as fileHandler:  
-# Read next line
-line = fileHandler.readline()
-# check line is not empty
-while line:
-print(line.strip())
-line = fileHandler.readline()
+ 
+    print("****Read all lines in file using readlines() *****")     
+ 
+    # Open file    
+    fileHandler = open ("data.txt", "r")
+    
+    # Get list of all lines in file
+    listOfLines = fileHandler.readlines()
+    
+    # Close file 
+    fileHandler.close()           
+    
+    # Iterate over the lines
+    for line in listOfLines:
+        print(line.strip()) 
+ 
+    
+    print("****Read file line by line and then close it manualy *****")
+    
+    # Open file        
+    fileHandler = open ("data.txt", "r")
+    
+    while True:
+        # Get next line from file
+        line = fileHandler.readline()
+        # If line is empty then end of file reached
+        if not line :
+            break;
+        print(line.strip())
+    
+    # Close Close    
+    fileHandler.close()   
+    
+    print("****Read file line by line using with open() *****")     
+    
+    # Open file 
+    with open ("data.txt", "r") as fileHandler:
+        # Read each line in loop
+        for line in fileHandler:
+            # As each line (except last one) will contain new line character, so strip that
+            print(line.strip())
+ 
+    
+    print("****Read file line by line using with open *****")
+    # Get the all the lines in file in a list 
+    listOfLines = list()        
+    with open ("data.txt", "r") as myfile:
+        for line in myfile:
+            listOfLines.append(line.strip()) 
+    
+    print(listOfLines)               
+    
+    print("****Read file line by line using with open() and while loop *****")
+    
+    # Open file
+    with open("data.txt", "r") as fileHandler:  
+        # Read next line
+        line = fileHandler.readline()
+        # check line is not empty
+        while line:
+            print(line.strip())
+            line = fileHandler.readline()
+        
 if __name__ == '__main__':
-main()
+    main()
