@@ -1,4 +1,6 @@
 https://pythonprogramming.altervista.org/how-to-get-all-the-file-in-a-directory/?doing_wp_cron=1567164553.1879150867462158203125
+ 
+ https://hplgit.github.io/edu/ostasks/._ostasks002.html
 
 import os
  
